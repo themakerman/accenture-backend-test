@@ -1,0 +1,1 @@
+const StudentController = module.exports;

@@ -1,0 +1,26 @@
+config:
+  target: 'http://localhost:8010'
+  phases:
+    - duration: 30
+      arrivalRate: 120
+scenarios:
+  - flow:
+      - get:
+          url: "/health"
+      - post:
+          url: "/rides"
+          json:
+            start_lat: "80"
+            start_long: "120"
+            end_lat: "88"
+            end_long: "110"
+            rider_name: "Mervin Tan"
+            driver_name: "Driver Lim"
+            driver_vehicle: "SGX8888H"
+          capture:
+            json: "$.rideID"
+            as: "rideID"
+      - get:
+          url: "/rides/{{ rideID }}"
+      - get:
+          url: "/rides"

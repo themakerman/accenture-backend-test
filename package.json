@@ -1,0 +1,60 @@
+{
+  "name": "accenture-backend-test",
+  "version": "1.0.0",
+  "description": "A coding assessment for Accenture backend interviews",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "nyc mocha tests",
+    "test:load": "forever start ./forever/development.json && artillery run artillery.yml && forever stop backend-coding-test",
+    "start": "node index.js",
+    "nodemon": "nodemon --inspect=8010 --trace-warnings index.js -e js,css,json",
+    "update:docs": "apidoc -i ./api/ -o ./public/docs/api/",
+    "upsDevelopment": "npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all"
+  },
+  "keywords": [
+    "Accenture"
+  ],
+  "author": "Mervin Tan",
+  "license": "ISC",
+  "dependencies": {
+    "apidoc": "^0.20.1",
+    "body-parser": "^1.19.0",
+    "chai": "^4.2.0",
+    "express": "^4.16.4",
+    "express-rate-limit": "^5.1.1",
+    "mysql2": "^2.1.0",
+    "nodemon": "^2.0.2",
+    "sequelize": "^5.21.6",
+    "sqlite3": "^4.0.6",
+    "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.26.0",
+    "@typescript-eslint/parser": "^2.26.0",
+    "artillery": "^1.6.0",
+    "eslint": "^6.8.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "forever": "^2.0.0",
+    "mocha": "^6.1.4",
+    "nyc": "^15.0.0",
+    "pre-push": "^0.1.1",
+    "supertest": "^4.0.2"
+  },
+  "apidoc": {
+    "name": "Backend Coding Test",
+    "version": "1.0.0",
+    "description": "This is an API documentation for Backend Coding Test done by Mervin Tan.",
+    "title": "Backend Coding Test",
+    "url": "http://localhost:8010"
+  },
+  "pre-push": [
+    "test"
+  ]
+}
