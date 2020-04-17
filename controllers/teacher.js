@@ -1,6 +1,7 @@
 
 module.exports = (db) => {
-	const TeacherModel = db.import('../models/teacher');
+	// const TeacherModel = db.import('../models/teacher');
+	const TeacherModel = require('../models/teacher')(db);
 	const TeacherStudentController = require('./teacherStudent')(db);
 
 	let TeacherController = {};
@@ -17,7 +18,9 @@ module.exports = (db) => {
 
 	TeacherController.registerStudentsToTeacher = async (teacherEmail, studentEmails) => {
 		const teacher = await TeacherController.getByEmail(teacherEmail);
-		const teacherStudents = await TeacherStudentController.getByTeacherId(teacher.teacherId);
+	console.log(teacher)
+		// teacher.dataValues.teacherId;
+		const teacherStudents = await TeacherStudentController.getByTeacherId(teacher.dataValues.teacherId);
 console.log(teacherStudents);
 		return teacherStudents;
 	};

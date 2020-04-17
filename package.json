@@ -55,6 +55,6 @@
     "url": "http://localhost:8010"
   },
   "pre-push": [
-    "test"
+
   ]
 }
