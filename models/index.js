@@ -1,37 +1,54 @@
-'use strict';
-
-const fs = require('fs');
-const path = require('path');
 const Sequelize = require('sequelize');
-const basename = path.basename(__filename);
-const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.json')[env];
-const db = {};
+const Model = Sequelize.Model;
+const constant = require('../config/constant.json');
 
-let sequelize;
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
-}
+module.exports = (db) => {
 
-fs
-  .readdirSync(__dirname)
-  .filter(file => {
-    return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
-  })
-  .forEach(file => {
-    const model = sequelize['import'](path.join(__dirname, file));
-    db[model.name] = model;
+  class Teacher extends Model {}
+  Teacher.init({
+    teacherId: { type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true },
+    email: { type: Sequelize.STRING, allowNull: false },
+    createdAt: Sequelize.DATE,
+    updatedAt: Sequelize.DATE
+  }, {
+    sequelize: db,
+    freezeTableName: true,
+    modelName: 'teacher',
+    tableName: 'teacher'
   });
 
-Object.keys(db).forEach(modelName => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
+  class Student extends Model {}
+  Student.init({
+    studentId: { type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true },
+    email: { type: Sequelize.STRING, allowNull: false },
+    status: { type: Sequelize.STRING, defaultValue: constant.STUDENT_STATUS.ACTIVE, allowNull: false },
+    createdAt: Sequelize.DATE,
+    updatedAt: Sequelize.DATE
+  }, {
+    sequelize: db,
+    freezeTableName: true,
+    modelName: 'student',
+    tableName: 'student'
+  })
+
+  class TeacherStudent extends Model {}
+  TeacherStudent.init({
+    teacherStudentId: { type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true },
+    teacherId: { type: Sequelize.INTEGER, allowNull: false, references: { model: Teacher, key: 'teacherId' } },
+    studentId: { type: Sequelize.INTEGER, allowNull: false, references: { model: Student, key: 'studentId' } },
+    createdAt: Sequelize.DATE,
+    updatedAt: Sequelize.DATE
+  }, {
+    sequelize: db,
+    freezeTableName: true,
+    modelName: 'teacher_student',
+    tableName: 'teacher_student'
+  });
+
+  return {
+    db,
+    TeacherModel: Teacher,
+    StudentModel: Student,
+    TeacherStudentModel: TeacherStudent
   }
-});
-
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
-
-module.exports = db;
+}

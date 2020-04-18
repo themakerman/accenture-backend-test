@@ -65,3 +65,6 @@ typings/
 
 # API documentation
 public/docs/
+
+# sqlite data
+data/

@@ -7,12 +7,18 @@
     "test": "tests"
   },
   "scripts": {
+    "pretest": "NODE_ENV=test npm run migrate:ups",
     "test": "nyc mocha tests",
     "test:load": "forever start ./forever/development.json && artillery run artillery.yml && forever stop backend-coding-test",
     "start": "node index.js",
-    "nodemon": "nodemon --inspect=8010 --trace-warnings index.js -e js,css,json",
+    "nodemon": "NODE_ENV=development nodemon --trace-warnings index.js -e js,css,json",
     "update:docs": "apidoc -i ./api/ -o ./public/docs/api/",
-    "upsDevelopment": "npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all"
+    "migrate:ups": "npx sequelize-cli db:migrate",
+    "migrate:down": "npx sequelize-cli db:migrate:undo",
+    "migrate:downs": "npx sequelize-cli db:migrate:undo:all",
+    "seed:ups": "npx sequelize-cli db:seed:all",
+    "seed:down": "npx sequelize-cli db:seed:undo",
+    "seed:downs": "npx sequelize-cli db:seed:undo:all"
   },
   "keywords": [
     "Accenture"
@@ -23,15 +29,19 @@
     "apidoc": "^0.20.1",
     "body-parser": "^1.19.0",
     "chai": "^4.2.0",
+    "child-process-promise": "^2.2.1",
     "express": "^4.16.4",
     "express-rate-limit": "^5.1.1",
     "mysql2": "^2.1.0",
     "nodemon": "^2.0.2",
     "sequelize": "^5.21.6",
+    "sequelize-cli": "^5.5.1",
     "sqlite3": "^4.0.6",
+    "umzug": "^2.3.0",
     "winston": "^3.2.1"
   },
   "devDependencies": {
+    "@types/express": "^4.17.6",
     "@typescript-eslint/eslint-plugin": "^2.26.0",
     "@typescript-eslint/parser": "^2.26.0",
     "artillery": "^1.6.0",
@@ -44,7 +54,6 @@
     "forever": "^2.0.0",
     "mocha": "^6.1.4",
     "nyc": "^15.0.0",
-    "pre-push": "^0.1.1",
     "supertest": "^4.0.2"
   },
   "apidoc": {
@@ -54,7 +63,5 @@
     "title": "Backend Coding Test",
     "url": "http://localhost:8010"
   },
-  "pre-push": [
-
-  ]
+  "pre-push": []
 }
