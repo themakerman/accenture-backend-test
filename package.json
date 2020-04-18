@@ -7,6 +7,7 @@
     "test": "tests"
   },
   "scripts": {
+    "init": "npm install && mkdir data && npm run migrate:ups && npm run seed:ups",
     "pretest": "NODE_ENV=test npm run migrate:ups",
     "test": "nyc mocha tests",
     "test:load": "forever start ./forever/development.json && artillery run artillery.yml && forever stop backend-coding-test",

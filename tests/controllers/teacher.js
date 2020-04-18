@@ -1,7 +1,4 @@
 const assert = require('chai').assert;
-// const request = require('supertest');
-// const { spawn } = require('child-process-promise');
-// const spawnOptions = { stdio: 'inherit' };
 
 const dbConfig = require('../../config/config.json');
 const Sequelize = require('sequelize').Sequelize;
