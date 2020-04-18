@@ -3,6 +3,7 @@ Run the following commands in sequence to start node application
 1. `npm run init`
 2. `npm run nodemon`
 3. API has successfully start on `http://localhost:8010/api/`
+4. API docs will be available at `http://localhost:8010/public/docs/api/`
 
 Note: this is making use of sqlite instead of MySQL, but the database dialect can be swapped out later on as Sequelize ORM supports that kind of change easily.
 
